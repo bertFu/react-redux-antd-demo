@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!-- Template Name: Rapido - Responsive Admin Template build with Twitter Bootstrap 3.x Version: 1.0 Author: ClipTheme -->
+<!--[if IE 8]><html class="ie8 no-js" lang="en"><![endif]-->
+<!--[if IE 9]><html class="ie9 no-js" lang="en"><![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" class="no-js">
+<!--<![endif]-->
+<!-- start: HEAD -->
+<head>
+    <title>蜜蜂协同平台</title>
+    <!-- start: META -->
+    <meta charset="utf-8" />
+    <!--[if IE]><meta http-equiv='X-UA-Compatible' content="IE=edge,IE=9,IE=8,IE=7,chrome=1" /><![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <!-- end: META -->
+    <!-- start: MAIN CSS -->
+    <link rel="stylesheet" href="/static/admin/plugins/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/admin/plugins/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/admin/plugins/animate.css/animate.min.css">
+    <link rel="stylesheet" href="/static/admin/plugins/iCheck/skins/all.css">
+    <link rel="stylesheet" href="/static/admin/css/styles.css">
+    <link rel="stylesheet" href="/static/admin/plugins/iCheck/skins/all.css">
+    <!--[if IE 7]>
+    <link rel="stylesheet" href="/static/admin/plugins/font-awesome/css/font-awesome-ie7.min.css">
+    <![endif]-->
+    <!-- end: MAIN CSS -->
+    <!-- start: CSS REQUIRED FOR THIS PAGE ONLY -->
+    <!-- end: CSS REQUIRED FOR THIS PAGE ONLY -->
+</head>
+<!-- end: HEAD -->
+<!-- start: BODY -->
+<body class="login">
+<div class="row">
+    <div class="main-login col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+        <div class="logo">
+            <!--<img src="/static/admin/images/logo.png">-->
+        </div>
+        <!-- start: LOGIN BOX -->
+        <div class="box-login">
+            <h3>登录账号</h3>
+            <!--<form class="form-login" action="index.html">-->
+                <div class="errorHandler alert alert-danger no-display" id="errDiv">
+                    <i class="fa fa-remove-sign"></i> <span id="errMsg">请填写登录名和登录密码。</span>
+                </div>
+                <fieldset>
+                    <div class="form-group">
+								<span class="input-icon">
+									<input type="text" id="email" class="form-control" name="username" placeholder="OA账号">
+									<i class="fa fa-user"></i> </span>
+                    </div>
+                    <div class="form-group form-actions">
+								<span class="input-icon">
+									<input type="password" id="pwd" class="form-control password" name="password" placeholder="密码">
+									<i class="fa fa-lock"></i></span>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" id="loginButton" class="btn btn-green pull-right">
+                            登录 <i class="fa fa-arrow-circle-right"></i>
+                        </button>
+                    </div>
+                </fieldset>
+            <!--</form>-->
+            <!-- start: COPYRIGHT -->
+            <div class="copyright">
+                2016 &copy; 彩生活Case
+            </div>
+            <!-- end: COPYRIGHT -->
+        </div>
+        <!-- end: LOGIN BOX -->
+    </div>
+</div>
+<!-- start: MAIN JAVASCRIPTS -->
+<!--[if lt IE 9]>
+<script src="/static/admin/plugins/respond.min.js"></script>
+<script src="/static/admin/plugins/excanvas.min.js"></script>
+<script type="text/javascript" src="/static/admin/plugins/jQuery/jquery-1.11.1.min.js"></script>
+<![endif]-->
+<!--[if gte IE 9]><!-->
+<script src="/static/admin/plugins/jQuery/jquery-2.1.1.min.js"></script>
+<!--<![endif]-->
+<script src="/static/admin/plugins/jquery-ui/jquery-ui-1.10.2.custom.min.js"></script>
+<script src="/static/admin/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/admin/plugins/iCheck/jquery.icheck.min.js"></script>
+<script src="/static/admin/plugins/jquery.transit/jquery.transit.js"></script>
+<script src="/static/admin/plugins/TouchSwipe/jquery.touchSwipe.min.js"></script>
+<script src="/static/admin/js/main.js"></script>
+<!-- end: MAIN JAVASCRIPTS -->
+<!-- start: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
+<script src="/static/admin/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="/static/admin/js/login.js"></script>
+<!-- end: JAVASCRIPTS REQUIRED FOR THIS PAGE ONLY -->
+<script>
+    jQuery(document).ready(function() {
+        Main.init();
+        Login.init();
+        var email = $('#email').val();
+        var pwd = $('#pwd').val();
+
+        $(document).keypress(function(e){
+            if (e.keyCode == 13) {
+                $('#loginButton').click();
+            }
+        })
+
+        $('#loginButton').click(function(){
+            var email = $('#email').val();
+            var pwd = $('#pwd').val();
+
+            //todo 这里将来要做更完整的验证
+            if(!$.trim(email)){
+                showErrMsg('请填写OA账号');
+                return;
+            }
+
+            if(!$.trim(pwd)){
+                showErrMsg('请填写OA密码');
+                return;
+            }
+
+            hideErrMsg();
+
+            $.post('/login',{
+                "username" : email,
+                "pwd" : pwd
+            },function(data){
+                if(data.code=="0"){
+                    location.href = "/dist/index.html";
+                }else{
+                    showErrMsg(data.message);
+                }
+            },'json');
+        });
+    });
+
+    function hideErrMsg(){
+        $('#errDiv').removeClass('display');
+        $('#errMsg').html('');
+        $('#errDiv').addClass('no-display');
+    }
+
+    function showErrMsg(msg){
+        $('#errDiv').removeClass('no-display');
+        $('#errMsg').html(msg);
+        $('#errDiv').addClass('display');
+    }
+
+</script>
+</body>
+<!-- end: BODY -->
+</html>

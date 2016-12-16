@@ -1,0 +1,2 @@
+docker run -p 4600:4000 -it --name=shoulou -v /home/nodejs/shoulou:/home/shoulou -w /home/shoulou -d dockerhub:5000/node ./run.sh test
+docker run -p 5000:4000 -it --name=case-admin -v /home/nodejs/case-admin:/home/case-admin -w /home/case-admin -d dockerhub:5000/node ./run.sh production
